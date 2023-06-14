@@ -17,7 +17,6 @@ import { Verification } from './users/entities/verification.entity';
 import { MailModule } from './mail/mail.module';
 import * as Joi from 'joi';
 
-console.log(process.env.NODE_ENV);
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -45,8 +44,9 @@ console.log(process.env.NODE_ENV);
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       synchronize: process.env.NODE_ENV !== 'prod',
-      logging: process.env.NODE_ENV !== 'prod',
+      logging: process.env.NODE_ENV === 'dev',
       entities: [User, Verification],
+      dropSchema: process.env.NODE_ENV === 'test',
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
